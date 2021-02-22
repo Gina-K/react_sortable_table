@@ -1,10 +1,10 @@
+import React from "react";
 
+import TableContainer from "./Components/Table/TableContainer";
 
 function App() {
   return (
-    <div>
-
-    </div>
+    <TableContainer />
   );
 }
 
