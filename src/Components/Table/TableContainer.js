@@ -55,8 +55,6 @@ function TableContainer() {
     })
   }, []);
 
-  console.log(data);
-
   return (
     <Table columns={columns} data={data} />
   );
