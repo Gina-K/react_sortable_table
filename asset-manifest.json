@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.js": "/react_sortable_table/static/js/main.56241b59.chunk.js",
+    "main.js.map": "/react_sortable_table/static/js/main.56241b59.chunk.js.map",
+    "runtime-main.js": "/react_sortable_table/static/js/runtime-main.cd8e3ee1.js",
+    "runtime-main.js.map": "/react_sortable_table/static/js/runtime-main.cd8e3ee1.js.map",
+    "static/js/2.b74583da.chunk.js": "/react_sortable_table/static/js/2.b74583da.chunk.js",
+    "static/js/2.b74583da.chunk.js.map": "/react_sortable_table/static/js/2.b74583da.chunk.js.map",
+    "index.html": "/react_sortable_table/index.html",
+    "static/js/2.b74583da.chunk.js.LICENSE.txt": "/react_sortable_table/static/js/2.b74583da.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cd8e3ee1.js",
+    "static/js/2.b74583da.chunk.js",
+    "static/js/main.56241b59.chunk.js"
+  ]
+}
