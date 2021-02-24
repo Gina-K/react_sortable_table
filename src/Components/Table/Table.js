@@ -3,6 +3,27 @@ import { useTable } from "react-table/src/hooks/useTable";
 import { useGlobalFilter } from "react-table/src/plugin-hooks/useGlobalFilter";
 import { useSortBy } from "react-table/src/plugin-hooks/useSortBy";
 import { usePagination } from "react-table/src/plugin-hooks/usePagination";
+import MUITable from "@material-ui/core/Table";
+import {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Input,
+  OutlinedInput,
+  InputAdornment,
+  TableFooter,
+  IconButton,
+  TextField,
+  Typography
+} from "@material-ui/core";
+import {
+  Search,
+  LastPage,
+  FirstPage,
+  ChevronLeft,
+  ChevronRight
+} from "@material-ui/icons";
 
 function Table({ columns, data }) {
   const {
@@ -41,97 +62,108 @@ function Table({ columns, data }) {
 
   return (
     <>
-      {/*  Search  */}
-      <input
+      <OutlinedInput
         value={filterInput}
         onChange={handleFilterChange}
         placeholder={"Search"}
+        fullWidth={true}
+        margin="dense"
+        startAdornment={
+          <InputAdornment position="start">
+            <Search />
+          </InputAdornment>
+        }
       />
 
-
-      {/*  Table  */}
-      <table {...getTableProps()}>
-        <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render("Header")}
-                <span>
+      <MUITable {...getTableProps()}>
+        <TableHead>
+          {headerGroups.map(headerGroup => (
+            <TableRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <TableCell {...column.getHeaderProps(column.getSortByToggleProps())} align="center">
+                  {column.render("Header")}
+                  <span>
                   {column.isSorted
                     ? column.isSortedDesc ? " ↓" : " ↑"
                     : ""}
                 </span>
-              </th>
-            ))}
-          </tr>
-        ))}
-        </thead>
-
-        <tbody {...getTableBodyProps()}>
-        {page.map(row => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>
-                  {cell.render("Cell")}
-                </td>;
-              })}
-            </tr>
-          );
-        })}
-        </tbody>
-      </table>
-
-      {/*  Pagination  */}
-      <div>
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {"<<"}
-        </button>
-        {" "}
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {"<"}
-        </button>
-        {" "}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {">"}
-        </button>
-        {" "}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {">>"}
-        </button>
-        {" "}
-
-        <span>Page{" "}
-          <strong>{pageIndex + 1} of {pageOptions.length}</strong>{" "}
-        </span>
-
-        <span>
-          | Go to page:{" "}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={changeEvent => {
-              const page = changeEvent.target.value ? Number(changeEvent.target.value) - 1 : 0;
-              gotoPage(page);
-            }}
-          />
-        </span>{" "}
-
-        <select
-          value={pageSize}
-          onChange={changeEvent => {
-            setPageSize(Number(changeEvent.target.value));
-          }}
-        >
-          {[10, 25, 50].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
+                </TableCell>
+              ))}
+            </TableRow>
           ))}
-        </select>
-      </div>
+        </TableHead>
+
+        <TableBody {...getTableBodyProps()}>
+          {page.map(row => {
+            prepareRow(row);
+            return (
+              <TableRow {...row.getRowProps()}>
+                {row.cells.map(cell => {
+                  return <TableCell {...cell.getCellProps()}>
+                    {cell.render("Cell")}
+                  </TableCell>;
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={7} align="right">
+              <Typography variant="subtitle2" display="inline" style={{ margin: "0 2em" }}>
+                Rows per page{""}
+                <TextField
+                  style={{ margin: "0 1em" }}
+                  select
+                  value={pageSize}
+                  onChange={e => {
+                    setPageSize(Number(e.target.value));
+                  }}
+                >
+                  {[10, 25, 50].map(pageSize => (
+                    <option key={pageSize} value={pageSize}>
+                      {pageSize}
+                    </option>
+                  ))}
+                </TextField>
+              </Typography>
+
+              <Typography variant="subtitle2" display="inline" style={{ margin: "0 2em" }}>
+                Page{" "}
+                <strong>{pageIndex + 1} of {pageOptions.length}</strong>{" "}
+              </Typography>
+
+              <Typography variant="subtitle2" display="inline" style={{ margin: "0 2em" }}>
+                Go to page:{" "}
+                <Input
+                  style={{ width: "2em", margin: "0 1em" }}
+                  margin="none"
+                  type="number"
+                  defaultValue={pageIndex + 1}
+                  onChange={changeEvent => {
+                    const page = changeEvent.target.value ? Number(changeEvent.target.value) - 1 : 0;
+                    gotoPage(page);
+                  }}
+                />
+              </Typography>
+
+              <IconButton size="small" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                <FirstPage />
+              </IconButton>
+              <IconButton size="small" onClick={() => previousPage()} disabled={!canPreviousPage}>
+                <ChevronLeft />
+              </IconButton>
+              <IconButton size="small" onClick={() => nextPage()} disabled={!canNextPage}>
+                <ChevronRight />
+              </IconButton>
+              <IconButton size="small" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                <LastPage />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </MUITable>
     </>
   );
 }
