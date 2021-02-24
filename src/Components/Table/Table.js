@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useTable} from "react-table/src/hooks/useTable";
 import {useGlobalFilter} from "react-table/src/plugin-hooks/useGlobalFilter";
+import {useSortBy} from "react-table/src/plugin-hooks/useSortBy";
 
 function Table({columns, data}) {
   const {
@@ -11,10 +12,12 @@ function Table({columns, data}) {
     prepareRow,
     setGlobalFilter
   } = useTable({
-    columns,
-    data
-  },
-    useGlobalFilter);
+      columns,
+      data
+    },
+    useGlobalFilter,
+    useSortBy
+  );
 
   const [filterInput, setFilterInput] = useState("");
 
@@ -37,7 +40,14 @@ function Table({columns, data}) {
         {headerGroups.map(headerGroup => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                {column.render("Header")}
+                <span>
+                  {column.isSorted
+                    ? column.isSortedDesc ? " ↓" : " ↑"
+                    : ""}
+                </span>
+              </th>
             ))}
           </tr>
         ))}
