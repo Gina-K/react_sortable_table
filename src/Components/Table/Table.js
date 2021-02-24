@@ -3,7 +3,7 @@ import { useTable } from "react-table/src/hooks/useTable";
 import { useGlobalFilter } from "react-table/src/plugin-hooks/useGlobalFilter";
 import { useSortBy } from "react-table/src/plugin-hooks/useSortBy";
 import { usePagination } from "react-table/src/plugin-hooks/usePagination";
-import MUITable from "@material-ui/core/Table";
+import MuiTable from "@material-ui/core/Table";
 import {
   TableBody,
   TableCell,
@@ -15,7 +15,8 @@ import {
   TableFooter,
   IconButton,
   TextField,
-  Typography
+  Typography,
+  createMuiTheme
 } from "@material-ui/core";
 import {
   Search,
@@ -60,8 +61,17 @@ function Table({ columns, data }) {
     setFilterInput(value);
   };
 
+  const containerSize = {
+    maxWidth: "1024px",
+    margin: "16px auto"
+  };
+
+  const footerSpacing = {
+    margin: "0 2em"
+  };
+
   return (
-    <>
+    <div style={containerSize}>
       <OutlinedInput
         value={filterInput}
         onChange={handleFilterChange}
@@ -75,7 +85,7 @@ function Table({ columns, data }) {
         }
       />
 
-      <MUITable {...getTableProps()}>
+      <MuiTable {...getTableProps()}>
         <TableHead>
           {headerGroups.map(headerGroup => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -111,7 +121,7 @@ function Table({ columns, data }) {
         <TableFooter>
           <TableRow>
             <TableCell colSpan={7} align="right">
-              <Typography variant="subtitle2" display="inline" style={{ margin: "0 2em" }}>
+              <Typography variant="subtitle2" display="inline" style={footerSpacing}>
                 Rows per page{""}
                 <TextField
                   style={{ margin: "0 1em" }}
@@ -129,12 +139,12 @@ function Table({ columns, data }) {
                 </TextField>
               </Typography>
 
-              <Typography variant="subtitle2" display="inline" style={{ margin: "0 2em" }}>
+              <Typography variant="subtitle2" display="inline" style={footerSpacing}>
                 Page{" "}
                 <strong>{pageIndex + 1} of {pageOptions.length}</strong>{" "}
               </Typography>
 
-              <Typography variant="subtitle2" display="inline" style={{ margin: "0 2em" }}>
+              <Typography variant="subtitle2" display="inline" style={footerSpacing}>
                 Go to page:{" "}
                 <Input
                   style={{ width: "2em", margin: "0 1em" }}
@@ -163,8 +173,8 @@ function Table({ columns, data }) {
             </TableCell>
           </TableRow>
         </TableFooter>
-      </MUITable>
-    </>
+      </MuiTable>
+    </div>
   );
 }
 

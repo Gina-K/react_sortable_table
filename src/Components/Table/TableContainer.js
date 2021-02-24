@@ -1,4 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo
+} from "react";
 
 import getData from "../../lib/getData";
 import Table from "./Table";
