@@ -7,7 +7,7 @@ const getData = async () => {
   totalResult = totalResult.concat(result.data.results);
 
   while (result.data.next) {
-    result = await axios(result.data.next);
+    result = await axios(result.data.next.replace("http", "https"));
     totalResult = totalResult.concat(result.data.results);
   }
 
