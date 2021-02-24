@@ -1,15 +1,14 @@
-import React, {useState} from "react";
-import {useTable} from "react-table/src/hooks/useTable";
-import {useGlobalFilter} from "react-table/src/plugin-hooks/useGlobalFilter";
-import {useSortBy} from "react-table/src/plugin-hooks/useSortBy";
-import {usePagination} from "react-table/src/plugin-hooks/usePagination";
+import React, { useState } from "react";
+import { useTable } from "react-table/src/hooks/useTable";
+import { useGlobalFilter } from "react-table/src/plugin-hooks/useGlobalFilter";
+import { useSortBy } from "react-table/src/plugin-hooks/useSortBy";
+import { usePagination } from "react-table/src/plugin-hooks/usePagination";
 
-function Table({columns, data}) {
+function Table({ columns, data }) {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    // rows,
     prepareRow,
     setGlobalFilter,
     page,
@@ -21,11 +20,11 @@ function Table({columns, data}) {
     nextPage,
     previousPage,
     setPageSize,
-    state: {pageIndex, pageSize}
+    state: { pageIndex, pageSize }
   } = useTable({
       columns,
       data,
-    initialState: {pageIndex: 0}
+      initialState: { pageIndex: 0 }
     },
     useGlobalFilter,
     useSortBy,
@@ -42,12 +41,15 @@ function Table({columns, data}) {
 
   return (
     <>
+      {/*  Search  */}
       <input
         value={filterInput}
         onChange={handleFilterChange}
         placeholder={"Search"}
       />
 
+
+      {/*  Table  */}
       <table {...getTableProps()}>
         <thead>
         {headerGroups.map(headerGroup => (
@@ -74,7 +76,7 @@ function Table({columns, data}) {
               {row.cells.map(cell => {
                 return <td {...cell.getCellProps()}>
                   {cell.render("Cell")}
-                </td>
+                </td>;
               })}
             </tr>
           );
@@ -82,19 +84,24 @@ function Table({columns, data}) {
         </tbody>
       </table>
 
+      {/*  Pagination  */}
       <div>
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {"<<"}
-        </button>{" "}
+        </button>
+        {" "}
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
           {"<"}
-        </button>{" "}
+        </button>
+        {" "}
         <button onClick={() => nextPage()} disabled={!canNextPage}>
           {">"}
-        </button>{" "}
+        </button>
+        {" "}
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {">>"}
-        </button>{" "}
+        </button>
+        {" "}
 
         <span>Page{" "}
           <strong>{pageIndex + 1} of {pageOptions.length}</strong>{" "}
@@ -106,8 +113,8 @@ function Table({columns, data}) {
             type="number"
             defaultValue={pageIndex + 1}
             onChange={changeEvent => {
-              const page = changeEvent.target.value ? Number(changeEvent.target.value) -1 : 0
-              gotoPage(page)
+              const page = changeEvent.target.value ? Number(changeEvent.target.value) - 1 : 0;
+              gotoPage(page);
             }}
           />
         </span>{" "}
@@ -115,9 +122,9 @@ function Table({columns, data}) {
         <select
           value={pageSize}
           onChange={changeEvent => {
-            setPageSize(Number(changeEvent.target.value))
+            setPageSize(Number(changeEvent.target.value));
           }}
-          >
+        >
           {[10, 25, 50].map(pageSize => (
             <option key={pageSize} value={pageSize}>
               Show {pageSize}

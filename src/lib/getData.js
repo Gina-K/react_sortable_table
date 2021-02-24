@@ -12,6 +12,6 @@ const getData = async () => {
   }
 
   return totalResult;
-}
+};
 
 export default getData;
